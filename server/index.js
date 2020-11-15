@@ -1,12 +1,10 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const passportLocal = require('passport-local');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
-const bcrypt = require('bcryptjs');
 
 const authenticationRoute = require('./routes/authentication');
 

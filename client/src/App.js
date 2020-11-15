@@ -1,5 +1,6 @@
 import React from 'react';
 import { useFormik } from 'formik';
+import Axios from 'axios';
 import './App.css';
 
 
@@ -9,8 +10,15 @@ function App() {
       username: '',
       password: '',
     },
-    onSubmit: values => {
-      console.log('register form:', values)
+    onSubmit: ({ username, password }) => {
+      console.log('register form:', { username, password })
+      Axios.post('http://localhost:4000/authentication/register', {
+        body: {
+          username,
+          password,
+        }
+      })
+        .then(data => console.log(data))
     }
   })
   const loginForm = useFormik({
@@ -18,8 +26,15 @@ function App() {
       username: '',
       password: '',
     },
-    onSubmit: values => {
-      console.log('login form:', values)
+    onSubmit: ({ username, password }) => {
+      console.log('login form:', { username, password })
+      Axios.get('http://localhost:4000/authentication/login', {
+        params: {
+          username,
+          password,
+        }
+      })
+        .then(data => console.log(data))
     }
   })
   // const getUserForm = useFormik({
