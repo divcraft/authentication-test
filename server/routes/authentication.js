@@ -1,13 +1,22 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
+const passport = require('passport');
 
 const router = express.Router();
 
-router.get('/login', (req, res) => {
-   console.log(req.query)
-   res.send('login works fine')
+router.post('/login', (req, res, next) => {
+   passport.authenticate('local', (err, user) => {
+      if (err) throw err;
+      if (user) {
+         res.send('Cannot log in, check you username and password')
+      } else {
+         req.logIn(user, err => {
+            if (err) throw err;
+            res.send('Authentication has been processed!')
+         })
+      }
+   })(req, res, next)
 })
 
 router.post('/register', (req, res) => {

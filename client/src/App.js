@@ -11,7 +11,6 @@ function App() {
       password: '',
     },
     onSubmit: ({ username, password }) => {
-      console.log('register form:', { username, password })
       Axios.post('http://localhost:4000/authentication/register', {
         body: {
           username,
@@ -19,6 +18,7 @@ function App() {
         }
       })
         .then(data => console.log(data))
+        .catch(err => { throw err })
     }
   })
   const loginForm = useFormik({
@@ -27,9 +27,8 @@ function App() {
       password: '',
     },
     onSubmit: ({ username, password }) => {
-      console.log('login form:', { username, password })
-      Axios.get('http://localhost:4000/authentication/login', {
-        params: {
+      Axios.post('http://localhost:4000/authentication/login', {
+        body: {
           username,
           password,
         }

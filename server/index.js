@@ -5,10 +5,11 @@ const passport = require('passport');
 const passportLocal = require('passport-local');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
+require('./mongoose');
 
 const authenticationRoute = require('./routes/authentication');
 
-const strategy = passportLocal.Strategy;
+// const strategy = passportLocal.Strategy;
 const app = express();
 
 // MIDDLEWARES
@@ -16,14 +17,18 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
-   credentials: true
+   origin: "http://localhost:3000", // <-- location of the react app were connecting to
+   credentials: true,
 }));
 app.use(expressSession({
    secret: 'secretcode',
    resave: true,
    saveUninitialized: true,
-}))
-app.use(cookieParser('secretcode'))
+}));
+app.use(cookieParser('secretcode'));
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passportConfig')();
 
 // ROUTES
 
